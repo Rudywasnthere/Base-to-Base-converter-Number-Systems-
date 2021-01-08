@@ -7,7 +7,8 @@ base_list = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g"
 def main():
   x=0
   main_count = 0
-  print("Hello, I convert between number-systems \nfor you. Because of my programmers limited \nmental capactiy I only go upto base 36 \n(Covering 0-9 and the English standard alphabet)\n Enter \"quit\" to quit anytime")
+  print("Hello, I convert between number-systems \nfor you. Because of my programmers limited \nmental capactiy I only go upto base 36 \n(Covering 0-9 and the English standard alphabet)\nEnter \"quit\" to quit anytime\nDon't put spaces in your inputs!")
+
   play = False
   while play != True:
     base_1 = input("What's your starting base:\t")
@@ -22,7 +23,7 @@ def main():
         base_2, play = correct_inputs(base_2)
         if play!= True:
           final_number = math_time(base_1, base_2, number_1)
-          print(f"Your answer is:\t{final_number}")
+          print(f"Your base {base_2} answer is:\t{final_number}\n")
 
 
 def correct_inputs(start_input, kind = "base", check_list = base_list):
@@ -71,7 +72,6 @@ def math_time(base_1, base_2, starting_number):
     final_number = ""
     number = number_to_list(starting_number)
     length = len(number)
-    print(length)
     count = 0
     intermediate = 0
     base_1, base_2 = int(base_1), int(base_2)
@@ -80,26 +80,28 @@ def math_time(base_1, base_2, starting_number):
     else:
       while count < length:
         digit = number[count]
-        print(digit)
         digit_val = base_values[digit]
         intermediate += digit_val * (base_1**(length - count - 1))
         count += 1
-
+        
     x, count = 1,1
-    while x <= intermediate:
+    while x <= intermediate/base_2:
         x*= base_2
         count += 1
     while count >= 1:
       if x <= intermediate:
           new_digit = intermediate/x
           integer_place = math.floor(new_digit)
-          final_number += str(base_values[f"{integer_place}"])
+          integer_pos_place = [str for str, value in base_values.items() if value == integer_place]
+          digit_place = integer_pos_place[0]
+          final_number += digit_place
           intermediate -= integer_place*x
       else:
           final_number += "0"
       count -= 1
       x /= base_2
-  
+    while final_number[0] == 0:
+      final_number = final_number[1:]
     return final_number
 
 
@@ -127,4 +129,5 @@ def restrict_list(base_list, base_1):
       new_list.append(base_list[count])
       count += 1
     return new_list, new_string
+
 main()
