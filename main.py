@@ -40,7 +40,32 @@ def correct_inputs(start_input, kind = "base"):
       main_count += 1    
 
 def math_time(base_1, base_2, starting_number):
-  starting_number = 
+  number = number_to_list(starting_number)
+  length = len(number)
+  count = 0
+  intermediate = 0
+  base_1, base_2 = int(base_1), int(base_2)
+  while count < length:
+    digit = number[count]
+    digit_val = base_values[digit]
+    intermediate = digit_val * (base_1**(length - count - 1))
+    count += 1
+  
+  x = 1
+  while x < number:
+    x *= base_2
 
 
+
+
+def number_to_list(number):
+  count = 0
+  list_1 = [""]
+  while count < len(number):
+    bit = number[count]
+    list_1.insert(-1,bit)
+    count += 1
+  number = list_1
+  useless = number.pop(-1)
+  return number
 main()
