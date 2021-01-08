@@ -6,15 +6,15 @@ def main():
   base_1 = input("Hello, I convert between number-systems \nfor you. Because of my programmers limited \nmental capactiy I only go upto base 36 \n(Covering 0-9 and the English standar alphabet)\nWhat's your starting base:\t")
   base_1 = correct_inputs(base_1)
   number_1 = input("Starting number:\t")
-  number_1 = correct_inputs(number_1, number)
+  number_1 = correct_inputs(number_1, "number")
   base_2 = input("Second base to translate into:\t")
   base_2 = correct_inputs(base_2)
 
 
-def correct_inputs(start_input, type = "base"):
+def correct_inputs(start_input, kind = "base"):
   main_count = 0
   count = 0
-  if type == "base":
+  if kind == "base":
     while count < 1:
       if main_count > 0:
         start_input = input("I need a correct value:\t")
@@ -24,9 +24,23 @@ def correct_inputs(start_input, type = "base"):
       except KeyError:
         count = 0
       main_count += 1
-  elif base == "number":    
+  elif kind == "number":
+    length = len(start_input)
+    while count < length:
+      if main_count != 0:
+        count = 0
+        start_input = input("I need a correct number:\t")
+      length = len(start_input)
+      try:
+        for x in start_input:
+          digit_val = base_values[f"{x}"]
+          count += 1
+      except KeyError:
+        count = length - 1
+      main_count += 1    
 
 def math_time(base_1, base_2, starting_number):
+  starting_number = 
 
 
 main()
