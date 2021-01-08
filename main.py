@@ -24,8 +24,7 @@ def correct_inputs(start_input, type = "base"):
       except KeyError:
         count = 0
       main_count += 1
-  elif base == "number":
-    
+  elif base == "number":    
 
 def math_time(base_1, base_2, starting_number):
 
