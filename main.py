@@ -1,25 +1,29 @@
 import math,sys
 
-base_values = {"1":1, "2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"a":10,"b":11,"c":12,"d":13,"e":14,"f":15,"g":16,"h":17,"i":18,"j":19,"k":20,"l":21,"m":22,"n":23,"o":24,"p":25,"q":26, "r":27,"s":28,"t":29,"u":30,"v":31,"w":32,"x":33,"y":34,"z":35}
+base_values = {"0":0,"1":1, "2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"a":10,"b":11,"c":12,"d":13,"e":14,"f":15,"g":16,"h":17,"i":18,"j":19,"k":20,"l":21,"m":22,"n":23,"o":24,"p":25,"q":26, "r":27,"s":28,"t":29,"u":30,"v":31,"w":32,"x":33,"y":34,"z":35}
 
-base_list = {""}
+base_list = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q", "r","s","t","u","v","w","x","y","z"]
 
 def main():
-  print("Hello, I convert between number-systems \nfor you. Because of my programmers limited \nmental capactiy I only go upto base 36 \n(Covering 0-9 and the English standar alphabet)\n Enter quit to quit anytime")
-  base_1, base_2, number_1 = "" , "" , ""
-  while base_1 != "quit" and base_2 != "quit" and number_1 != "quit":
-    base_1 = input("What's your starting base:\t")
-    base_1 = correct_inputs(base_1)
-    check_list = restrict_list(base_list, base_1)
-    number_1 = input("Starting number:\t")
-    number_1 = correct_inputs(number_1, "number")
-    base_2 = input("Second base to translate into:\t")
-    base_2 = correct_inputs(base_2)
-    final_number = math_time(base_1, base_2, number_1)
-    print(f"Your answer is:\t{final_number}")
+  x=0
+  if x == x:
+    print("Hello, I convert between number-systems \nfor you. Because of my programmers limited \nmental capactiy I only go upto base 36 \n(Covering 0-9 and the English standard alphabet)\n Enter \"quit\" to quit anytime")
+    base_1, base_2, number_1 = "" , "" , ""
+    while base_1 != "quit" and base_2 != "quit" and number_1 != "quit":
+      base_1 = input("What's your starting base:\t")
+      base_1 = correct_inputs(base_1)
+      check_list = restrict_list(base_list, base_1)
+      number_1 = input("Starting number:\t")
+      number_1 = correct_inputs(number_1, "number", check_list)
+      base_2 = input("Second base to translate into:\t")
+      base_2 = correct_inputs(base_2)
+      final_number = math_time(base_1, base_2, number_1)
+      print(f"Your answer is:\t{final_number}")
+  else:
+    y=2
 
 
-def correct_inputs(start_input, kind = "base", check_list = base_values):
+def correct_inputs(start_input, kind = "base", check_list = base_list):
   main_count = 0
   count = 0
   if kind == "base":
@@ -27,9 +31,10 @@ def correct_inputs(start_input, kind = "base", check_list = base_values):
       if main_count > 0:
         start_input = input("I need a correct value:\t")
       try:
-        useless_1 = check_list[start_input]
-        count += 1
-      except KeyError:
+        start_input = int(start_input)
+        if 1 <= start_input <= 36:
+          count += 1
+      except ValueError:
         count = 0
       main_count += 1
   elif kind == "number":
@@ -39,13 +44,15 @@ def correct_inputs(start_input, kind = "base", check_list = base_values):
         count = 0
         start_input = input("I need a correct number:\t")
       length = len(start_input)
-      try:
-        for x in start_input:
-          digit_val = base_values[f"{x}"]
-          count += 1
-      except KeyError:
-        count = length - 1
+      for x in start_input:
+          x = int(base_values[x])
+          try:
+            digit_val = check_list[x]
+            count += 1
+          except IndexError:
+            count = length - 1
       main_count += 1    
+  return start_input
 
 def math_time(base_1, base_2, starting_number):
   final_number = ""
@@ -89,12 +96,12 @@ def number_to_list(number):
   useless = number.pop(-1)
   return number
 
-def restrict_list(o_list, base_1):
-  base_1 = int(base_1)
+def restrict_list(base_list, base_1):
+  base_1 = base_1
   count = 0
-  new_list = [""]
+  new_list = []
   while count < base_1:
-    new_list = new_list.append(o_list[count])
+    new_list.append(base_list[count])
     count += 1
   return new_list
 main()
