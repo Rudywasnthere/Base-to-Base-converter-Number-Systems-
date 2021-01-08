@@ -55,22 +55,26 @@ def correct_inputs(start_input, last_number,last_base, position, kind = "base", 
           play = True
           count = 1
         ## keeps trying to esnure user number system base input is correct
-        try:
-          start_input = int(start_input)
-          if 1 <= start_input <= 36:
-            count += 1
-        except ValueError:
-          count = 0
+        if count != 1:
+          try:
+            start_input = int(start_input)
+            if 1 <= start_input <= 36:
+              count += 1
+          except ValueError:
+            count = 0
         main_count += 1
 
     ## handles the number input from user
   elif kind == "number":
         length = len(start_input)
+        while start_input == "" or length == 0:
+          start_input = input("I need a correct number:\t")
+          length = len(start_input)
         while count < length:
           ## reasks for input if the first one didn't work
-          if main_count != 0:
-            count = 0
+          if main_count != 0 or length == 0:
             start_input = input("I need a correct number:\t")
+            count = 0
           ## implements the last answer as an input
           if start_input == 'answer' and last_number != "":
             start_input = last_number
@@ -80,13 +84,14 @@ def correct_inputs(start_input, last_number,last_base, position, kind = "base", 
             count = length + 1
           length = len(start_input)
           ## goes through each letter and make sure its in the list of possible digits for the first base counting system
-          for x in start_input:
-              x = int(base_values[x])
-              try:
-                useless = check_list[x]
-                count += 1
-              except IndexError:
-                count = length - 1
+          if count != length + 1:
+            for x in start_input:
+                x = int(base_values[x])
+                try:
+                  useless = check_list[x]
+                  count += 1
+                except IndexError:
+                  count = length - 1
           main_count += 1   
   return start_input, play
 
