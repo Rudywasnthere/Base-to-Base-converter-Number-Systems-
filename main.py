@@ -8,25 +8,32 @@ def main():
   x=0
   main_count = 0
   print("Hello, I convert between number-systems \nfor you. Because of my programmers limited \nmental capactiy I only go upto base 36 \n(Covering 0-9 and the English standard alphabet)\nEnter \"quit\" to quit anytime\nDon't put spaces in your inputs!")
-
+  last_number = ""
+  last_base = ""
   play = False
   while play != True:
+    if main_count == 1:
+      print("\nYou can enter \'answer\' to use your last answer as your new input number or last base as your new input base\n")
     base_1 = input("What's your starting base:\t")
-    base_1, play = correct_inputs(base_1)
+    base_1, play = correct_inputs(base_1, last_number, last_base, 1)
     if play != True:
       check_list, new_string = restrict_list(base_list, base_1)
       print(f"Possible digits for starting number:  {new_string}")
       number_1 = input("Starting number:\t")
-      number_1, play = correct_inputs(number_1, "number", check_list)
+      number_1, play = correct_inputs(number_1,last_number, last_base, 2, "number", check_list)
       if play != True:
         base_2 = input("Second base to translate into:\t")
-        base_2, play = correct_inputs(base_2)
+        base_2, play = correct_inputs(base_2, last_number, last_base, 3)
         if play!= True:
           final_number = math_time(base_1, base_2, number_1)
           print(f"Your base {base_2} answer is:\t{final_number}\n")
+          last_number = final_number
+          last_base = base_2
+          main_count += 1
 
 
-def correct_inputs(start_input, kind = "base", check_list = base_list):
+
+def correct_inputs(start_input, last_number,last_base, position, kind = "base", check_list = base_list):
   main_count = 0
   count = 0
   if start_input == "quit":
@@ -37,6 +44,9 @@ def correct_inputs(start_input, kind = "base", check_list = base_list):
       while count < 1:
         if main_count > 0:
           start_input = input("I need a correct value:\t")
+        if start_input == "answer" and last_base != "":
+          start_input = last_base
+          count += 1
         if start_input == "quit":
           start_input = "quit"
           count = 1
@@ -48,23 +58,25 @@ def correct_inputs(start_input, kind = "base", check_list = base_list):
           count = 0
         main_count += 1
     elif kind == "number":
-      length = len(start_input)
-      while count < length:
-        if main_count != 0:
-          count = 0
-          start_input = input("I need a correct number:\t")
-        if start_input == "quit":
-          start_input = "quit"
-          count = length + 1
         length = len(start_input)
-        for x in start_input:
-            x = int(base_values[x])
-            try:
-              digit_val = check_list[x]
-              count += 1
-            except IndexError:
-              count = length - 1
-        main_count += 1   
+        while count < length:
+          if main_count != 0:
+            count = 0
+            start_input = input("I need a correct number:\t")
+          if start_input == 'answer' and last_number != "":
+            start_input = last_number
+          if start_input == "quit":
+            start_input = "quit"
+            count = length + 1
+          length = len(start_input)
+          for x in start_input:
+              x = int(base_values[x])
+              try:
+                digit_val = check_list[x]
+                count += 1
+              except IndexError:
+                count = length - 1
+          main_count += 1   
     play = False 
   return start_input, play
 
