@@ -72,7 +72,7 @@ def correct_inputs(start_input, last_number,last_base, position, kind = "base", 
           for x in start_input:
               x = int(base_values[x])
               try:
-                digit_val = check_list[x]
+                useless = check_list[x]
                 count += 1
               except IndexError:
                 count = length - 1
@@ -135,7 +135,10 @@ def restrict_list(base_list, base_1):
     new_string = ""
     while count < base_1:
       if count == base_1 -1:
-        new_string += f"and {base_list[count]}"
+        if base_1 != 1:
+          new_string += f"and {base_list[count]}"
+        if base_1 == 1:
+          new_string += f"{base_list[count]}"
       else:
         new_string += f"{base_list[count]}, "
       new_list.append(base_list[count])
